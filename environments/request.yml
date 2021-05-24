@@ -1,4 +1,4 @@
-name: bic086
+name: bic086-requests
 channels:
   - bioconda
   - conda-forge

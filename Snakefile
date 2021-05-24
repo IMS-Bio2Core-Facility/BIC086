@@ -1,5 +1,5 @@
 configfile: "configuration/snakemake.yaml"
-container: "docker://condaforge/miniforge:4.10.1-0"
+# container: "docker://condaforge/miniforge:4.10.1-0"
 
 BENCHS = config["bench_dir"]
 ENVS = config["env_dir"]
@@ -19,6 +19,8 @@ rule request:
                 LOGS + "request.log"
         benchmark:
                 BENCHS + "request.txt"
+        threads:
+                6
         conda:
                 ENVS + "request.yml"
         script:
