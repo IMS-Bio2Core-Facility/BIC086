@@ -3,8 +3,7 @@
 import json
 
 import requests
-
-from scripts.logs.get_logger import get_logger
+from logs.get_logger import get_logger
 
 LOGS = snakemake.log[0]  # noqa: F821
 PARAMS = snakemake.params  # noqa: F821
@@ -17,10 +16,10 @@ for gene, output in zip(PARAMS["gene_ids"], OUTS["data"]):
         "https://gtexportal.org/rest/v1/expression/medianTranscriptExpression",
         headers={"Accept": "application/json"},
         params={
-            "datasetId": ["gtex_v8"],
-            "gencondeId": gene,
-            "tissueSiteDetailId": ["Brain_hypothalamus"],
-            "hcluster": False,
+            "datasetId": "gtex_v8",
+            "gencodeId": gene,
+            "tissueSiteDetailId": "Brain_Hypothalamus",
+            "hcluster": "False",
             "format": "json",
         },
     )
