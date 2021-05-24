@@ -1,0 +1,32 @@
+[tool.coverage.run]
+branch = true
+source = ["bic083"]
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.pytest.ini_options]
+addopts = """
+-vv
+--ignore=docs
+--diff-type=split
+--cov=bic083
+--typeguard-packages=bic083
+"""
+
+[tool.isort]
+profile = "black"
+skip_gitignore = true
+float_to_top = false
+
+[tool.flake8]
+select = "ANN,B,B9,C,C4,D,DAR,F,S,SC"
+exclude = "docs/conf.py"
+per-file-ignore = "tests/*:S101"
+max-line-length = 88
+max-complexity = 10
+docstring-convention = "numpy"
+docstring-style = "numpy"
+strictness = "short"
+dictionaries = "en_US,python,technical"
+spellcheck-targets = "comments"

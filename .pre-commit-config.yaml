@@ -1,0 +1,36 @@
+default_language_version:
+  python: python3.9
+
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v3.4.0
+  hooks:
+  - id: check-yaml
+  - id: check-toml
+  - id: fix-encoding-pragma
+  - id: end-of-file-fixer
+  - id: trailing-whitespace
+  - id: check-added-large-files
+- repo: local
+  hooks:
+  - id: black
+    name: black
+    entry: black
+    language: system
+    types: [python]
+  - id: isort
+    name: isort
+    entry: isort
+    language: system
+    types: [python]
+  - id: flake8
+    name: flake8
+    entry: pflake8
+    language: system
+    types: [python]
+  - id: mypy
+    name: mypy
+    entry: mypy
+    args: ['--ignore-missing-imports', '--disable-error-code', 'name-defined']
+    language: system
+    types: [python]
