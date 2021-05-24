@@ -4,8 +4,9 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python==3.8.8
-  - snakemake==6.2.1
+  - python==3.9.5
+  - snakemake==6.4.0
+  - requests==2.25.1
   - nox
   - pre-commit
   - pytest
@@ -25,7 +26,7 @@ dependencies:
   - flake8-docstrings
   - flake8-comprehensions
   - darglint
-  - pip==21.1
+  - pip==21.1.2
   - pip:
     - flake8-annotations
     - flake8-bandit
