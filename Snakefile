@@ -8,13 +8,13 @@ RESULTS = config["results_dir"]
 
 rule all:
         input:
-                expand(RESULTS + "{gene}_message.json", gene=config["request"]["gene_ids"]),
+                expand(RESULTS + "request/{gene}_message.json", gene=config["request"]["gene_ids"]),
 
 rule request:
         params:
                 gene_ids = config["request"]["gene_ids"],
         output:
-                data = expand(RESULTS + "{gene}_message.json", gene=config["request"]["gene_ids"]),
+                data = expand(RESULTS + "request/{gene}_message.json", gene=config["request"]["gene_ids"]),
         log:
                 LOGS + "request.log"
         benchmark:
