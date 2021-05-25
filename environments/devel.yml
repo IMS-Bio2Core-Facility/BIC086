@@ -8,6 +8,7 @@ dependencies:
   - snakemake==6.4.0
   - requests==2.25.1
   - pandas==1.2.4
+  - openpyxl==3.0.7
   - nox
   - pre-commit
   - pytest
