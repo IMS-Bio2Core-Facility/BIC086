@@ -21,6 +21,7 @@ float_to_top = false
 
 [tool.flake8]
 select = "ANN,B,B9,C,C4,D,DAR,F,S,SC"
+ignore = "ANN101"
 exclude = "docs/conf.py"
 per-file-ignore = "tests/*:S101"
 max-line-length = 88
