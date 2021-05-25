@@ -19,8 +19,6 @@ def get_logger(module: str, file: str) -> logging.Logger:
     logging.Logger
         The configured logger instance.
     """
-    logger = logging.getLogger(module)
-
     handler = logging.FileHandler(file)
     formatter = logging.Formatter(
         "{asctime} :: {levelname} :: {name} :: {message}", style="{"
@@ -29,7 +27,8 @@ def get_logger(module: str, file: str) -> logging.Logger:
     handler.setLevel(logging.INFO)
     handler.setFormatter(formatter)
 
-    logger.addHandler(handler)
-    logger.setLevel(logging.INFO)
+    logging.basicConfig(level=logging.INFO, handlers=[handler])
+
+    logger = logging.getLogger(module)
 
     return logger
