@@ -15,10 +15,16 @@ logger = logging.getLogger(__name__)
 def get_session() -> requests.Session:
     """Instantiate a thread local session.
 
+    The requests session is not thread safe, per `this`_ thread.
+    To circumvent this, we create a thread local session. This means each session
+    will still make multiple requests but remain isolated to its calling thread.
+
     Returns
     -------
     requests.Session
 
+    .. _this:
+       https://github.com/psf/requests/issues/2766
     """
     # session still worth it - re-used by each thread
     if not hasattr(thread_local, "session"):
