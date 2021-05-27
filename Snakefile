@@ -11,6 +11,25 @@ rule all:
         input:
                 RESULTS + "process/sorted_isoforms.xlsx",
 
+rule ids:
+        params:
+                url = config["gencode_url"],
+        output:
+                lut = DATA + "gencode.v26.annotation",
+        log:
+                LOGS + "ids.log"
+        benchmark:
+                BENCHS + "ids.txt"
+        shell:
+                "curl -s {params.url} | "
+                "gzip -dc | "
+                "grep -w gene | "
+                "cut -f9 | "
+                "cut -d ' ' -f2,6 | "
+                "tr -d ';\"' "
+                "> {output.lut} "
+                "2> {log}"
+
 rule request:
         input:
                 lut = DATA + "gencode.v26.annotation",

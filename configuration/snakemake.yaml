@@ -4,6 +4,7 @@ env_dir: "environments/"
 log_dir: "logs/"
 results_dir: "results/"
 
+gencode_url: "http://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_26/gencode.v26.annotation.gtf.gz"
 gene_ids:
   - "ASCL1"
   - "BSX"

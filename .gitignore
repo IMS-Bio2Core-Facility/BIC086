@@ -130,6 +130,7 @@ dmypy.json
 .pyre/
 
 # Local things
+data/
 results
 whitelist.txt
 .DS_store
