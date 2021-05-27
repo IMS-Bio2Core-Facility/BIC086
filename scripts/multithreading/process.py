@@ -72,8 +72,10 @@ class Pipeline:
             data = pd.DataFrame.from_dict(raw["medianTranscriptExpression"])
             data = data.sort_values("median", ascending=False)
             self._q.put(data)
+            logger.info(f"Contents of file {path} added to queue")
         else:
             self._q.put(path)  # Send end signal to consumer
+            logger.info("All files added. None signal sent. Producer returns")
             return
 
     def _consumer(self) -> None:
@@ -85,6 +87,7 @@ class Pipeline:
         while (data := self._q.get()) is not None:
             gene = data["geneSymbol"].unique()[0]
             data.to_excel(self.writer, index=False, sheet_name=gene)
+            logger.info(f"{gene} add to output file.")
             self._q.task_done()
         else:
             logging.info("None received. Queue consumed.")
