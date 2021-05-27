@@ -6,7 +6,6 @@ that are independent. Additionally, as the bottleneck is definitely the read ste
 (ie this is I/O bound), we want concurrency. Here, we implement a simple queue to
 allow exactly this.
 """
-import json
 import logging
 import queue
 from concurrent.futures import ThreadPoolExecutor
@@ -67,9 +66,7 @@ class Pipeline:
         no more items to process.
         """
         while (path := self.files.pop(0)) is not None:
-            with open(path, "r") as file:
-                raw = json.load(file)
-            data = pd.DataFrame.from_dict(raw["medianTranscriptExpression"])
+            data = pd.read_csv(path, header=0, index_col=None, sep="\t")
             data = data.sort_values("median", ascending=False)
             self._q.put(data)
             logger.info(f"Contents of file {path} added to queue")

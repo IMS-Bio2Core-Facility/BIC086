@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """Make a GET request to GTEx medianTranscriptExpression."""
-import json
 import logging
 import threading
 
@@ -29,13 +28,12 @@ def get_session() -> requests.Session:
     # session still worth it - re-used by each thread
     if not hasattr(thread_local, "session"):
         thread_local.session = requests.Session()
-        thread_local.session.headers.update({"Accept": "application/json"})
+        thread_local.session.headers.update({"Accept": "text/html"})
         thread_local.session.params.update(  # type: ignore
             {
                 "datasetId": "gtex_v8",
                 "tissueSiteDetailId": "Brain_Hypothalamus",
-                "hcluster": "False",
-                "format": "json",
+                "format": "tsv",
             }
         )
     return thread_local.session
@@ -82,6 +80,5 @@ def gtex_request(gene: str, output: str) -> None:
         logger.info(
             f"GET request for {gene} successful! Details: \n\t{response.headers}"
         )
-        message = response.json()
         with open(output, "w") as file:
-            json.dump(message, file)
+            file.write(response.text)
