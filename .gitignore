@@ -131,7 +131,6 @@ dmypy.json
 
 # Local things
 results
-data
 whitelist.txt
 .DS_store
 ./logs/

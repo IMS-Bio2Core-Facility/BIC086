@@ -2,6 +2,7 @@ configfile: "configuration/snakemake.yaml"
 # container: "docker://condaforge/miniforge:4.10.1-0"
 
 BENCHS = config["bench_dir"]
+DATA = config["data_dir"]
 ENVS = config["env_dir"]
 LOGS = config["log_dir"]
 RESULTS = config["results_dir"]
@@ -11,10 +12,12 @@ rule all:
                 RESULTS + "process/sorted_isoforms.xlsx",
 
 rule request:
+        input:
+                lut = DATA + "gencode.v26.annotation",
         params:
-                gene_ids = config["request"]["gene_ids"],
+                gene_ids = config["gene_ids"],
         output:
-                data = expand(RESULTS + "request/{gene}_message.tsv", gene=config["request"]["gene_ids"]),
+                data = expand(RESULTS + "request/{gene}_message.tsv", gene=config["gene_ids"]),
         log:
                 LOGS + "request.log"
         benchmark:
@@ -28,7 +31,7 @@ rule request:
 
 rule process:
         input:
-                data = expand(RESULTS + "request/{gene}_message.tsv", gene=config["request"]["gene_ids"]),
+                data = expand(RESULTS + "request/{gene}_message.tsv", gene=config["gene_ids"]),
         output:
                 data = RESULTS + "process/sorted_isoforms.xlsx",
         log:
