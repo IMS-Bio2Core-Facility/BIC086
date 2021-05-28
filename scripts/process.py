@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Process GTEx json data to xlsx."""
 import pandas as pd
+
 from logs.get_logger import get_logger
 from multithreading.process import Pipeline
 

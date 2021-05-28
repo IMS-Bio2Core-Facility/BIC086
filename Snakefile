@@ -1,5 +1,5 @@
 configfile: "configuration/snakemake.yaml"
-# container: "docker://condaforge/miniforge:4.10.1-0"
+container: "docker://condaforge/mambaforge:4.10.1-0"
 
 BENCHS = config["bench_dir"]
 DATA = config["data_dir"]
@@ -21,7 +21,7 @@ rule ids:
         benchmark:
                 BENCHS + "ids.txt"
         shell:
-                "curl -s {params.url} | "
+                "wget -qO- {params.url} | "
                 "gzip -dc | "
                 "grep -w gene | "
                 "cut -f9 | "
@@ -42,7 +42,7 @@ rule request:
         benchmark:
                 BENCHS + "request.txt"
         threads:
-                6
+                1
         conda:
                 ENVS + "request.yml"
         script:
@@ -58,7 +58,7 @@ rule process:
         benchmark:
                 BENCHS + "process.txt"
         threads:
-                6
+                1
         conda:
                 ENVS + "process.yml"
         script:
