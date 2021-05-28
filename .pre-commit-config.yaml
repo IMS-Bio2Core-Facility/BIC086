@@ -43,6 +43,8 @@ repos:
 - repo: local
   hooks:
   - id: nox
+    pass_filenames: false
+    verbose: true
     name: nox
     entry: nox
     language: system
