@@ -11,15 +11,15 @@ we stand the highest chance of success by choosing open reading frames
 that are expressed in our cell-type or tissue of interest.
 For tissue-dependent expression data,
 there are few resources better than GTEx.
-In this case, the `medianTranscriptExpression` query provides the necessary data.
+In this case, the ``medianTranscriptExpression`` query provides the necessary data.
 It returns the median expression of each transcript for a gene in a given tissue.
 Here, we query a list of genes against the 202 brain hypothalamus datasets.
 
 Data
 ----
 
-The pipeline requires no input data other than a list of gene names specified input
-`configuration/snakemake.yaml`.
+The pipeline requires no input data other than a list of gene names specified in
+``configuration/snakemake.yaml``.
 
 Reference
 ---------
@@ -29,7 +29,7 @@ As this is not the most up-to-date version,
 it actually proved quite frustrating to find the desired version numbers for each gene.
 To streamline this process,
 the pipeline now downloads the Gencode v26 GTF annotations from EBI,
-removes all features not annotated as `gene`,
+removes all features not annotated as ``gene``,
 and pulls the names and IDs of all remaining features.
 This way, all end users need to do is provide a list of gene names.
 
@@ -46,7 +46,7 @@ Snakemake recommends using `mambaforge`_ as your base conda,
 which I would also recommend.
 Installation instructions are at the above link.
 If you prefer a vanilla conda installation,
-you can always try `mamba` following the instructions at the above snakemake link.
+you can always try ``mamba`` following the instructions at the above snakemake link.
 Once you have conda installed,
 install snakemake as outlined on their page
 (again, see the above link).
@@ -90,5 +90,3 @@ then leave off the apropriate flag, as so:
    git clone https://github.com/IMS-Bio2Core-Facility/BIC086-Sophie-Austin &&
    cd BIC086-Sophie-Austin &&
    snakemake --use-conda --cores 6
-
-Under
