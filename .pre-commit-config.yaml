@@ -1,5 +1,6 @@
 default_language_version:
   python: python3.9
+default_stages: [commit]
 
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -39,3 +40,10 @@ repos:
     - flake8-spellcheck
     - darglint
     - pyproject-flake8
+- repo: local
+  hooks:
+  - id: nox
+    name: nox
+    entry: nox
+    language: system
+    stages: [push]
