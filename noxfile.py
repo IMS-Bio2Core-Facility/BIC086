@@ -51,7 +51,7 @@ def type(session: Session) -> None:
 @nox.session(python=VERSIONS)
 def security(session: Session) -> None:
     """Check security safety."""
-    args = session.posargs or None
+    args = session.posargs or []
     session.conda_install(*CONDA_PARAMS, "environments/security.txt")
     session.run("safety", "check", "--bare", *args)
 
