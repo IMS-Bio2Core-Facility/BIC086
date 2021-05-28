@@ -42,7 +42,7 @@ rule request:
         benchmark:
                 BENCHS + "request.txt"
         threads:
-                1
+                config["threads"]
         conda:
                 ENVS + "request.yml"
         script:
@@ -58,7 +58,7 @@ rule process:
         benchmark:
                 BENCHS + "process.txt"
         threads:
-                1
+                config["threads"]
         conda:
                 ENVS + "process.yml"
         script:
