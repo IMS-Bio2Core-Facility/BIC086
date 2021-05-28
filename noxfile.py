@@ -1,27 +1,26 @@
 # -*- coding: utf-8 -*-
 """Nox session configuration."""
-from typing import List
-
 import nox
 from nox.sessions import Session
 
-PACKAGE: str = "bic083"
-LOCATIONS: List[str] = [
+PACKAGE: str = "scripts"
+LOCATIONS: list[str] = [
     PACKAGE,
     "noxfile.py",
-    "tests",
 ]
-VERSIONS: List[str] = ["3.8"]
+VERSIONS: list[str] = ["3.9"]
+CONDA_PARAMS: list[str] = ["-c", "bioconda", "-c", "conda-forge", "--file"]
 
 nox.options.stop_on_first_error = True
-nox.options.reuse_existing_virtualenvs = False
+nox.options.default_venv_backend = "conda"
+nox.options.reuse_existing_virtualenvs = True
 
 
-@nox.session(python="3.8")
+@nox.session(python=VERSIONS[0])
 def form(session: Session) -> None:
     """Format code with isort and black."""
     args = session.posargs or LOCATIONS
-    session.install("isort==5.8.0", "black==21.4b2")
+    session.conda_install(*CONDA_PARAMS, "environments/form.txt")
     session.run("isort", *args)
     session.run("black", *args)
 
@@ -29,19 +28,9 @@ def form(session: Session) -> None:
 @nox.session(python=VERSIONS)
 def lint(session: Session) -> None:
     """Lint files with flake8."""
-    args = session.posargs or LOCATIONS[:2]
-    session.install(
-        "flake8==3.9.1",
-        "pyproject-flake8",
-        "flake8-annotations==2.6.2",
-        "flake8-bandit==2.1.2",
-        "flake8-bugbear==21.4.3",
-        "flake8-comprehensions==3.4.0",
-        "flake8-docstrings==1.6.0",
-        "flake8-pytest-style==1.4.1",
-        "flake8-spellcheck==0.24.0",
-        "darglint==1.8.0",
-    )
+    args = session.posargs or LOCATIONS
+    session.conda_install(*CONDA_PARAMS, "environments/lint.txt")
+    session.install("-r", "environments/lint_pip.txt", "--no-deps")
     session.run("pflake8", *args)
 
 
@@ -49,7 +38,7 @@ def lint(session: Session) -> None:
 def type(session: Session) -> None:
     """Type check files with mypy."""
     args = session.posargs or LOCATIONS
-    session.install("mypy==0.812")
+    session.conda_install(*CONDA_PARAMS, "environments/type.txt")
     session.run(
         "mypy",
         "--ignore-missing-imports",
@@ -62,21 +51,14 @@ def type(session: Session) -> None:
 @nox.session(python=VERSIONS)
 def security(session: Session) -> None:
     """Check security safety."""
-    session.run("safety", "check", external=True)
+    args = session.posargs or None
+    session.conda_install(*CONDA_PARAMS, "environments/security.txt")
+    session.run("safety", "check", "--bare", *args)
 
 
 @nox.session(python=VERSIONS)
 def tests(session: Session) -> None:
     """Run the test suite with pytest."""
     args = session.posargs or []
-    session.install(
-        "coverage==5.5",
-        "pytest==6.2.4",
-        "pytest-clarity==0.2.0a1",
-        "pytest-sugar==0.9.4",
-        "pytest-mock==3.6.0",
-        "pytest-cov==2.11.1",
-        "typeguard==2.12.0",  # Though typing, run best in pytest
-        "six==1.15.0",
-    )
+    session.conda_install(*CONDA_PARAMS, "environments/tests.txt")
     session.run("pytest", *args)
