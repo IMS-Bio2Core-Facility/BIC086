@@ -1,6 +1,6 @@
 [tool.coverage.run]
 branch = true
-source = ["bic086"]
+source = ["scripts"]
 
 [tool.coverage.report]
 show_missing = true
@@ -10,8 +10,8 @@ addopts = """
 -vv
 --ignore=docs
 --diff-type=split
---cov=bic086
---typeguard-packages=bic086
+--cov=scripts
+--typeguard-packages=scripts
 """
 
 [tool.isort]
