@@ -1,6 +1,7 @@
 [tool.coverage.run]
 branch = true
 source = ["scripts"]
+omit = ["*/__init__.py"]
 
 [tool.coverage.report]
 show_missing = true
