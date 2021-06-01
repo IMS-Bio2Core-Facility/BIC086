@@ -66,8 +66,7 @@ class Pipeline:
         no more items to process.
         """
         while (path := self.files.pop(0)) is not None:
-            data = pd.read_csv(path, header=0, index_col=None, sep="\t")
-            data = data.sort_values("median", ascending=False)
+            data = pd.read_csv(path, header=0, index_col=None)
             self._q.put(data)
             logger.info(f"Contents of file {path} added to queue")
         else:

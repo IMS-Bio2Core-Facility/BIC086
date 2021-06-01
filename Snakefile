@@ -36,7 +36,7 @@ rule request:
         params:
                 gene_ids = config["gene_ids"],
         output:
-                data = expand(RESULTS + "request/{gene}_message.tsv", gene=config["gene_ids"]),
+                data = expand(RESULTS + "request/{gene}_message.csv", gene=config["gene_ids"]),
         log:
                 LOGS + "request.log"
         benchmark:
@@ -50,7 +50,7 @@ rule request:
 
 rule process:
         input:
-                data = expand(RESULTS + "request/{gene}_message.tsv", gene=config["gene_ids"]),
+                data = expand(RESULTS + "request/{gene}_message.csv", gene=config["gene_ids"]),
         output:
                 data = RESULTS + "process/sorted_isoforms.xlsx",
         log:

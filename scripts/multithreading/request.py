@@ -2,7 +2,9 @@
 """Make a GET request to GTEx medianTranscriptExpression."""
 import logging
 import threading
+from io import StringIO
 
+import pandas as pd
 import requests
 
 # from logs.get_logger import get_logger
@@ -80,5 +82,9 @@ def gtex_request(gene: str, output: str) -> None:
         logger.info(
             f"GET request for {gene} successful! Details: \n\t{response.headers}"
         )
-        with open(output, "w") as file:
-            file.write(response.text)
+        data = pd.read_csv(StringIO(response.text), sep="\t")
+        data = data.loc[data["median"] > 0, :].sort_values("median", ascending=False)
+        data.loc[:, ["gencodeId", "transcriptId"]] = data.loc[
+            :, ["gencodeId", "transcriptId"]
+        ].apply(lambda x: x.str.split(".").str.get(0))
+        data.to_csv(output, index=False)
