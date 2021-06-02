@@ -10,6 +10,7 @@ RESULTS = config["results_dir"]
 rule all:
         input:
                 RESULTS + "process/sorted_isoforms.xlsx",
+                expand(RESULTS + "biomart/{gene}_message.csv", gene=config["gene_ids"]),
 
 rule ids:
         params:
@@ -47,6 +48,22 @@ rule request:
                 ENVS + "request.yml"
         script:
                 "scripts/request.py"
+
+rule biomart:
+        input:
+                data = expand(RESULTS + "request/{gene}_message.csv", gene=config["gene_ids"]),
+        output:
+                data = expand(RESULTS + "biomart/{gene}_message.csv", gene=config["gene_ids"]),
+        log:
+                LOGS + "biomart.log"
+        benchmark:
+                BENCHS + "biomart.txt"
+        threads:
+                config["threads"]
+        conda:
+                ENVS + "biomart.yml"
+        script:
+                "scripts/biomart.py"
 
 rule process:
         input:

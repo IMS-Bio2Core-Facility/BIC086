@@ -1,15 +1,10 @@
-name: bic086
+name: biomart
 channels:
   - bioconda
   - conda-forge
   - defaults
 dependencies:
   - python==3.9.5
-  - snakemake==6.4.0
-  - requests==2.25.1
   - pandas==1.2.4
-  - openpyxl==3.0.7
   - bioservices==1.7.11
   - lxml==4.6.3
-  - nox
-  - pre-commit
