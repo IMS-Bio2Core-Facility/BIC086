@@ -12,6 +12,10 @@ if __name__ == "__main__":
 
     logger = get_logger(__name__, LOGS)
 
+    mane = pd.read_csv(INS["mane"], index_col=0)
+
     with pd.ExcelWriter(OUTS["data"], engine="openpyxl") as writer:
-        pl = Pipeline(files=INS["data"], writer=writer, maxworkers=THREADS)
+        pl = Pipeline(
+            gtex=INS["gtex"], bm=INS["bm"], writer=writer, mane=mane, maxworkers=THREADS
+        )
         pl.run()

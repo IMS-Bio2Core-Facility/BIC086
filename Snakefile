@@ -10,8 +10,6 @@ RESULTS = config["results_dir"]
 rule all:
         input:
                 RESULTS + "process/sorted_isoforms.xlsx",
-                expand(RESULTS + "biomart/{gene}_message.csv", gene=config["gene_ids"]),
-                DATA + "MANE.csv",
 
 rule ids:
         params:
@@ -84,7 +82,9 @@ rule biomart:
 
 rule process:
         input:
-                data = expand(RESULTS + "request/{gene}_message.csv", gene=config["gene_ids"]),
+                gtex = expand(RESULTS + "request/{gene}_message.csv", gene=config["gene_ids"]),
+                bm = expand(RESULTS + "biomart/{gene}_message.csv", gene=config["gene_ids"]),
+                mane = DATA + "MANE.csv",
         output:
                 data = RESULTS + "process/sorted_isoforms.xlsx",
         log:

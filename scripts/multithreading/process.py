@@ -32,12 +32,16 @@ class Pipeline:
 
     Attributes
     ----------
-    files : list[str]
-        The list of files to iterate over.
+    gtex : list[str]
+        The list of gtex data to iterate over.
+    bm : list[str]
+        The list of BioMart data to iterate over.
     writer : pd.ExcelWriter
         The *open* pd.ExcelWriter instance.
         This should be opened, preferably with a `with` block before instantiating
             the class.
+    mane : pd.DataFrame
+        The MANE reference data to be used.
     maxworkers : int
         The maximum number of workers to use.
     maxsize : int, default: 0
@@ -45,14 +49,17 @@ class Pipeline:
         Defaults to no limit.
     """
 
-    files: list[Union[str, None]]
+    gtex: list[Union[str, None]]
+    bm: list[Union[str, None]]
     writer: pd.ExcelWriter
+    mane: pd.DataFrame
     maxworkers: int
     maxsize: int = 0
 
     def __post_init__(self) -> None:
         """Initialise queue from given values."""
-        self.files += [None]
+        self.gtex += [None]
+        self.bm += [None]
         self._q: queue.Queue = queue.Queue(maxsize=self.maxsize)
 
     def _producer(self) -> None:
@@ -65,12 +72,26 @@ class Pipeline:
         Additionally, the None signal is sent to the consumer to indicate when there are
         no more items to process.
         """
-        while (path := self.files.pop(0)) is not None:
-            data = pd.read_csv(path, header=0, index_col=None)
+        while (gtex_path := self.gtex.pop(0)) is not None and (
+            bm_path := self.bm.pop(0)
+        ) is not None:
+            gtex = pd.read_csv(gtex_path, header=0, index_col=None)
+            bm = pd.read_csv(bm_path, header=0, index_col=None)
+            data = (
+                gtex.merge(
+                    bm, on=["geneSymbol", "gencodeId", "transcriptId"], how="outer"
+                )
+                .merge(
+                    self.mane,
+                    on=["geneSymbol", "gencodeId", "transcriptId", "refseq"],
+                    how="left",
+                )
+                .sort_values(["median", "MANE_status"])
+            )
             self._q.put(data)
-            logger.info(f"Contents of file {path} added to queue")
+            logger.info(f"Contents of file {gtex_path} added to queue")
         else:
-            self._q.put(path)  # Send end signal to consumer
+            self._q.put(None)  # Send end signal to consumer
             logger.info("All files added. None signal sent. Producer returns")
             return
 
