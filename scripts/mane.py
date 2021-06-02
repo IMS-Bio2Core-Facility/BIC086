@@ -22,8 +22,8 @@ if __name__ == "__main__":
         }
     )
 
-    mane.loc[:, ["gencodeId", "transcriptId"]] = mane.loc[
-        :, ["gencodeId", "transcriptId"]
+    mane.loc[:, ["gencodeId", "transcriptId", "refseq"]] = mane.loc[
+        :, ["gencodeId", "transcriptId", "refseq"]
     ].apply(lambda x: x.str.split(".").str.get(0))
 
     mane.to_csv(OUTS["data"])
