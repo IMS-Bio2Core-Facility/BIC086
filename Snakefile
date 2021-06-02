@@ -11,6 +11,7 @@ rule all:
         input:
                 RESULTS + "process/sorted_isoforms.xlsx",
                 expand(RESULTS + "biomart/{gene}_message.csv", gene=config["gene_ids"]),
+                DATA + "MANE.csv",
 
 rule ids:
         params:
@@ -30,6 +31,22 @@ rule ids:
                 "tr -d ';\"' "
                 "> {output.lut} "
                 "2> {log}"
+
+rule mane:
+        params:
+                url = config["mane_url"],
+        output:
+                data = DATA + "MANE.csv",
+        log:
+                LOGS + "mane.log"
+        benchmark:
+                BENCHS + "mane.txt"
+        threads:
+                1
+        conda:
+                ENVS + "mane.yml"
+        script:
+                "scripts/mane.py"
 
 rule request:
         input:
