@@ -11,6 +11,7 @@ if __name__ == "__main__":
 
     logger = get_logger(__name__, LOGS)
 
+    logger.info(f"Fetching MANE from {PARAMS['url']}")
     mane = pd.read_csv(PARAMS["url"], sep="\t", header=0)
     mane = mane.rename(
         columns={
@@ -26,3 +27,4 @@ if __name__ == "__main__":
     ].apply(lambda x: x.str.split(".").str.get(0))
 
     mane.to_csv(OUTS["data"])
+    logger.info(f"MANE saved to {OUTS['data']}")
