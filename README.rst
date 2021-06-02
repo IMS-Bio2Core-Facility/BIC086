@@ -1,7 +1,7 @@
 BIC086-Sophie-Austin
 ====================
 
-GTEx isoform expression queries for transcription factors in human hypothalamus.
+A fully concurrent pipeline for querying transcript-level GTEx data in the human hypothalamus.
 
 Motivation
 ----------
@@ -24,14 +24,19 @@ The pipeline requires no input data other than a list of gene names specified in
 Reference
 ---------
 
-Under the hood, GTEx uses Gencode v26 for its Ensembl IDs.
+It is surprisingly challenging to align RefSeq IDs and Ensembl IDs.
+This is further complicated because GTEx uses Gencode26 under the hood.
 As this is not the most up-to-date version,
 it actually proved quite frustrating to find the desired version numbers for each gene.
-To streamline this process,
-the pipeline now downloads the Gencode v26 GTF annotations from EBI,
-removes all features not annotated as ``gene``,
-and pulls the names and IDs of all remaining features.
-This way, all end users need to do is provide a list of gene names.
+To combat this,
+this pipeline takes 3 different approaches in parallel:
+
+#. Gencode v26 GTF annotations are downloaded from EBI,
+   so the user only needs to supply gene names.
+#. A query is made to BioMart to retrieve RefSeq IDs for each ENST returned by GTEx.
+#. Data from `MANE`_ is added to help identify consensus transcripts.
+
+.. _MANE: https://www.ncbi.nlm.nih.gov/refseq/MANE/
 
 Pipeline
 --------
@@ -76,13 +81,7 @@ running the pipeline is as simple as:
    cd BIC086-Sophie-Austin &&
    snakemake --use-conda --use-singularity --cores 6
 
-Unless you are querying a huge number of genes,
-I find 6 cores to be sufficient to keep things moving.
-If you want to use more or less,
-alter the `threads` parameter in `configuration/snakemake.yaml`.
-That file is also the same spot to specify your gene list of interest!
-
-If you aren't using `singularity`,
+If you aren't using ``singularity``,
 then leave off the apropriate flag, as so:
 
 .. code:: shell
@@ -90,3 +89,30 @@ then leave off the apropriate flag, as so:
    git clone https://github.com/IMS-Bio2Core-Facility/BIC086-Sophie-Austin &&
    cd BIC086-Sophie-Austin &&
    snakemake --use-conda --cores 6
+
+And ``snakemake`` will automatically leave it off.
+
+Customising
+~~~~~~~~~~~
+
+You will almost certainly have a different gene list than me!
+If its short,
+you can specify it as a parameter like so:
+
+.. code:: shell
+
+   snakemake --use-conda --use-singularity --cores 6 --config gene_ids=["GENE1","GENE2"]
+
+Alternatively, you can specify it as a list under the ``gene_ids`` parameter in the
+configuration file located at ``configuration/snakemake.yaml``.
+
+Unless you are querying a huge number of genes,
+I find 6 cores to be sufficient to keep things moving.
+If you want to use more or less,
+just change the value passed to ``--cores``.
+Each rule that implements concurrency will then use this many.
+Remember, more isn't always faster.
+On my laptop,
+setting cores greater than the number of physical cores (not threads!)
+in my machine gets me no improvement.
+**YMMV**
