@@ -39,8 +39,6 @@ rule mane:
                 LOGS + "mane.log"
         benchmark:
                 BENCHS + "mane.txt"
-        threads:
-                1
         conda:
                 ENVS + "mane.yml"
         script:
@@ -58,7 +56,7 @@ rule request:
         benchmark:
                 BENCHS + "request.txt"
         threads:
-                config["threads"]
+                workflow.cores
         conda:
                 ENVS + "request.yml"
         script:
@@ -74,7 +72,7 @@ rule biomart:
         benchmark:
                 BENCHS + "biomart.txt"
         threads:
-                config["threads"]
+                workflow.cores
         conda:
                 ENVS + "biomart.yml"
         script:
@@ -92,7 +90,7 @@ rule process:
         benchmark:
                 BENCHS + "process.txt"
         threads:
-                config["threads"]
+                workflow.cores
         conda:
                 ENVS + "process.yml"
         script:
