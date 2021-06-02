@@ -62,3 +62,30 @@ def tests(session: Session) -> None:
     args = session.posargs or []
     session.conda_install(*CONDA_PARAMS, "environments/tests.txt")
     session.run("pytest", *args)
+
+
+@nox.session(python=VERSIONS)
+def doc_tests(session: Session) -> None:
+    """Build the docs."""
+    args = session.posargs or []
+    session.conda_install(*CONDA_PARAMS, "environments/doc_tests.txt")
+    session.run(
+        "python",
+        "-m",
+        "xdoctest",
+        "--verbose",
+        "2",
+        "--report",
+        "cdiff",
+        "--nocolor",
+        PACKAGE,
+        *args
+    )
+
+
+@nox.session(python="3.9")
+def doc_build(session: Session) -> None:
+    """Build the docs."""
+    session.conda_install(*CONDA_PARAMS, "environments/doc_build.txt")
+    session.install("-r", "environments/doc_build_pip.txt", "--no-deps")
+    session.run("sphinx-build", "docs", "docs/_build")
