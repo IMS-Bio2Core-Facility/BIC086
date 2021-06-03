@@ -11,5 +11,7 @@ dependencies:
   - openpyxl==3.0.7
   - bioservices==1.7.11
   - lxml==4.6.3
+  - aiohttp>=3.7.4
+  - pyyaml>=5.4.1
   - nox
   - pre-commit
