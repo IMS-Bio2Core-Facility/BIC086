@@ -1,5 +1,26 @@
 # -*- coding: utf-8 -*-
-"""Make a GET request to GTEx medianTranscriptExpression."""
+"""Functions for concurrent GTEx requests.
+
+.. warning::
+
+   Though every effort has been made to ensure thread safety,
+   the concurrency is, as of yet, untested.
+
+.. note::
+
+   This module will likely undergo significant refactoring to generalise
+   the concurrency pipeline and move all data handling code to a separate
+   model.
+
+Any API query is likely to be an I/O bound process,
+particularly if there are many to make.
+As this is a single step,
+many in, many out process,
+concurrency can be easily achieved with a thread local ``requests.session``
+and mapping with ``concurrent.futures.ThreadPoolExecutor.map``.
+The call to ``concurrent.futures.ThreadPoolExecutor.map`` is handled in the analysis
+script.
+"""
 import logging
 import threading
 from io import StringIO
@@ -7,25 +28,23 @@ from io import StringIO
 import pandas as pd
 import requests
 
-# from logs.get_logger import get_logger
-
 thread_local = threading.local()
 logger = logging.getLogger(__name__)
 
 
-def get_session() -> requests.Session:
+def _get_session() -> requests.Session:
     """Instantiate a thread local session.
 
-    The requests session is not thread safe, per `this`_ thread.
+    The requests session is not thread safe, per `this thread`_.
     To circumvent this, we create a thread local session. This means each session
     will still make multiple requests but remain isolated to its calling thread.
+
+    .. _this thread:
+        https://github.com/psf/requests/issues/2766
 
     Returns
     -------
     requests.Session
-
-    .. _this:
-       https://github.com/psf/requests/issues/2766
     """
     # session still worth it - re-used by each thread
     if not hasattr(thread_local, "session"):
@@ -42,14 +61,18 @@ def get_session() -> requests.Session:
 
 
 def gtex_request(gene: str, output: str) -> None:
-    """Make a gtex request against medianTranscriptExpression.
+    """Make a thead-safe gtex request against medianTranscriptExpression.
+
+    A thread local session is provided by a call to ``_get_session``.
+    This allows the reuse of sessions, which, among other things,
+    provides significant speed ups.
 
     Parameters
     ----------
     gene : str
-        gene
+        The ENSG to query.
     output : str
-        output
+        Where to save the output file.
 
     Raises
     ------
@@ -58,7 +81,7 @@ def gtex_request(gene: str, output: str) -> None:
     Exception
         Any other errors
     """
-    s = get_session()
+    s = _get_session()
     response = s.get(
         "https://gtexportal.org/rest/v1/expression/medianTranscriptExpression",
         params={

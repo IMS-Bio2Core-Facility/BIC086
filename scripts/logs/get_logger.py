@@ -1,5 +1,20 @@
 # -*- coding: utf-8 -*-
-"""Configure logger."""
+"""Configure logger.
+
+This takes advantage of the parent-child relationship between modules to configure
+logging.
+This only needs to be called once,
+in the top module -
+here, the analysis scripts -
+for these effects to be propagated to all modules that configure logging using:
+
+.. code-block:: python
+
+   import logging
+   logger = logging.getLogger(__name__)
+
+And then log using one of the standard levels.
+"""
 import logging
 
 

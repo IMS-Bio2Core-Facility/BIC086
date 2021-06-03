@@ -1,10 +1,27 @@
 # -*- coding: utf-8 -*-
-"""Multi-thread pandas processing.
+"""A simple queue for data processing.
 
-Writing to files is definitely not thread safe. But here, we have multiple read-ins
-that are independent. Additionally, as the bottleneck is definitely the read step,
-(ie this is I/O bound), we want concurrency. Here, we implement a simple queue to
-allow exactly this.
+.. warning::
+
+   Though every effort has been made to ensure thread safety,
+   the concurrency is, as of yet, untested.
+
+.. note::
+
+   This module will likely undergo significant refactoring to generalise
+   the concurrency pipeline and move all data handling code to a separate
+   model.
+
+Combining the relevant data is a massively I/O bound process.
+That is,
+the file reading/writing takes more time than the data processing,
+making this an ideal candidate for concurrency.
+Additionally,
+as this is a "many in, one out" situation,
+a queue is a useful structure.
+Here,
+a common producer-consumer queue is structured as a class to simplify calls
+to the queue.
 """
 import logging
 import queue
@@ -26,6 +43,10 @@ class Pipeline:
     IO bound (a quick check with pprofile suggests the majority of the time is
     writing to Excel), it is an excellent choice for concurrency.
 
+    We take advantage of the ``dataclass __post_init__`` method to initialise the queue
+    with user-specified parameters,
+    and to mark the end of the files with None.
+
     Using joining has the interesting problem that that the consumer can finish
     before all items have been processed by the producer. Instead, we trigger
     each to return by marking the last item as None.
@@ -39,7 +60,7 @@ class Pipeline:
     writer : pd.ExcelWriter
         The *open* pd.ExcelWriter instance.
         This should be opened, preferably with a `with` block before instantiating
-            the class.
+        the class.
     mane : pd.DataFrame
         The MANE reference data to be used.
     maxworkers : int
@@ -57,7 +78,7 @@ class Pipeline:
     maxsize: int = 0
 
     def __post_init__(self) -> None:
-        """Initialise queue from given values."""
+        """Initialise queue from given values and end lists with ``None``."""
         self.gtex += [None]
         self.bm += [None]
         self._q: queue.Queue = queue.Queue(maxsize=self.maxsize)

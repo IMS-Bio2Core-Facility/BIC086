@@ -15,29 +15,6 @@ In this case, the ``medianTranscriptExpression`` query provides the necessary da
 It returns the median expression of each transcript for a gene in a given tissue.
 Here, we query a list of genes against the 202 brain hypothalamus datasets.
 
-Data
-----
-
-The pipeline requires no input data other than a list of gene names specified in
-``configuration/snakemake.yaml``.
-
-Reference
----------
-
-It is surprisingly challenging to align RefSeq IDs and Ensembl IDs.
-This is further complicated because GTEx uses Gencode26 under the hood.
-As this is not the most up-to-date version,
-it actually proved quite frustrating to find the desired version numbers for each gene.
-To combat this,
-this pipeline takes 3 different approaches in parallel:
-
-#. Gencode v26 GTF annotations are downloaded from EBI,
-   so the user only needs to supply gene names.
-#. A query is made to BioMart to retrieve RefSeq IDs for each ENST returned by GTEx.
-#. Data from `MANE`_ is added to help identify consensus transcripts.
-
-.. _MANE: https://www.ncbi.nlm.nih.gov/refseq/MANE/
-
 Pipeline
 --------
 
@@ -75,7 +52,7 @@ Running
 Once you've installed the above software,
 running the pipeline is as simple as:
 
-.. code:: shell
+.. code-block:: shell
 
    git clone https://github.com/IMS-Bio2Core-Facility/BIC086-Sophie-Austin &&
    cd BIC086-Sophie-Austin &&
@@ -84,7 +61,7 @@ running the pipeline is as simple as:
 If you aren't using ``singularity``,
 then leave off the apropriate flag, as so:
 
-.. code:: shell
+.. code-block:: shell
 
    git clone https://github.com/IMS-Bio2Core-Facility/BIC086-Sophie-Austin &&
    cd BIC086-Sophie-Austin &&
@@ -99,7 +76,7 @@ You will almost certainly have a different gene list than me!
 If its short,
 you can specify it as a parameter like so:
 
-.. code:: shell
+.. code-block:: shell
 
    snakemake --use-conda --use-singularity --cores 6 --config gene_ids=["GENE1","GENE2"]
 
@@ -116,3 +93,56 @@ On my laptop,
 setting cores greater than the number of physical cores (not threads!)
 in my machine gets me no improvement.
 **YMMV**
+
+Reproducibility
+---------------
+
+Reproducibility results are a cornerstone of the scientific process.
+By running the pipeline with ``snakemake`` in a ``docker`` image using ``conda`` environments,
+we ensure that no aspect of the pipeline is left to chance.
+You will get our analysis,
+as we ran it,
+with the software versions,
+as we used them.
+To further aid in this effort,
+`nox`_ and `pre-commit` are used,
+which also ensures that development happens in reproducible environments.
+
+Unfortunately,
+any query to an unstable API is inherently not reproducible.
+Thus,
+changes in BioMart or GTEx could impact the results.
+We recognise this as an inherent limitation,
+and will do our best to keep abreast of API changes that impact the pipeline.
+
+.. _nox: https://nox.thea.codes/en/stable/
+.. _pre-commit: https://pre-commit.com/
+
+Data
+----
+
+The pipeline requires no input data other than a list of gene names specified in
+``configuration/snakemake.yaml``.
+
+References
+----------
+
+It is surprisingly challenging to align RefSeq IDs and Ensembl IDs.
+This is further complicated because GTEx uses Gencode26 under the hood.
+As this is not the most up-to-date version,
+it actually proved quite frustrating to find the desired version numbers for each gene.
+To combat this,
+this pipeline takes 3 different approaches in parallel:
+
+#. Gencode v26 GTF annotations are downloaded from EBI,
+   so the user only needs to supply gene names.
+#. A query is made to BioMart to retrieve RefSeq IDs for each ENST returned by GTEx.
+#. Data from `MANE`_ is added to help identify consensus transcripts.
+
+.. _MANE: https://www.ncbi.nlm.nih.gov/refseq/MANE/
+
+Contributing
+------------
+
+If you are interested in helping us improve the pipeline,
+pleare see our guides on :ref:`contributing`.

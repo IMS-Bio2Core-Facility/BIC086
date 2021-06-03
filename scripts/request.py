@@ -1,5 +1,24 @@
 # -*- coding: utf-8 -*-
-"""Make a GET request to GTEx medianTranscriptExpression."""
+"""Make a GET request to GTEx medianTranscriptExpression.
+
+This step queries the GTEx API for transcript expression data in the human
+hypothalamus using a user provided list of genes names.
+As the GTEx API is quite straightforward,
+these queries can be made using the standard `requests.session`_ object.
+Data were pulled from the ``gtex_v8`` dataset limited to the
+``Brain_Hypothalamus`` region.
+
+There are a number of bugs in the GTEx API that necesitated some work arounds.
+The data are returned in a TSV format,
+as attempts to return in a CSV format produced a tab-delimited first line
+and comma-delimited body.
+Additionally,
+the ``hclust`` option cannot be passed as it is force-set to ``true``,
+no matter the user-passed value.
+This is circumvented by not passing the value in the first place.
+
+.. _requests.session: https://docs.python-requests.org/en/master/user/advanced/
+"""
 if __name__ == "__main__":
     import concurrent.futures
 

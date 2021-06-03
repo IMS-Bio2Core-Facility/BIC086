@@ -1,5 +1,14 @@
 # -*- coding: utf-8 -*-
-"""Process GTEx json data to xlsx."""
+"""Process data to xlsx.
+
+Here,
+the input data from the previous three steps is combined and written to XLSX.
+The GTEx data is merged BioMart data using an outer merge,
+so as to keep all entries.
+Then,
+the MANE data is added using a left merge,
+so as to only keep the data from the GTEx query.
+"""
 if __name__ == "__main__":
     import pandas as pd
     from logs.get_logger import get_logger
