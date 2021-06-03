@@ -11,7 +11,7 @@ sys.path.insert(0, os.path.abspath("../scripts/"))
 
 project = "BIC086-Sophie-Austin"
 author = "Ryan B Patterson-Cross"
-copyright = f"2021, {author}"
+copyright = "2021, IMS-MRL Bioinformatics and Biostatistic Core"
 extensions = ["sphinx_rtd_theme", "sphinx.ext.autodoc", "sphinx.ext.napoleon"]
 
 napoleon_google_docstrings = False
