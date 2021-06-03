@@ -132,7 +132,6 @@ dmypy.json
 # Local things
 data/
 results
-whitelist.txt
 .DS_store
 ./logs/
 benchmarks/
