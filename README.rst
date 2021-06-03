@@ -13,6 +13,10 @@ BIC086
    :alt: Project Status: Active – The project has reached a stable, usable state and is being actively developed.
    :target: https://www.repostatus.org/#active
 
+.. image:: https://readthedocs.org/projects/bic086/badge/?version=latest
+   :target: https://bic086.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
+
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
    :target: https://github.com/psf/black
    :alt: Codestyle: Black
