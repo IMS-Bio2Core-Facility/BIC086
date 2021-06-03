@@ -21,19 +21,18 @@ BIC086
    :target: https://github.com/IMS-Bio2Core-Facility/BIC086
    :alt: GitHub Repo stars
 
-A fully concurrent pipeline for querying transcript-level GTEx data in the human hypothalamus.
+A fully concurrent pipeline for querying transcript-level GTEx data in specific tissues
 
 Motivation
 ----------
 
-When choosing transcription factors (TFs) for over expression iPSCs,
-we stand the highest chance of success by choosing open reading frames
-that are expressed in our cell-type or tissue of interest.
+There are a number of circumstances where transcript level expressed data for a
+specific tissue is highly valuable.
 For tissue-dependent expression data,
 there are few resources better than GTEx.
 In this case, the ``medianTranscriptExpression`` query provides the necessary data.
 It returns the median expression of each transcript for a gene in a given tissue.
-Here, we query a list of genes against the 202 brain hypothalamus datasets.
+Here, we query a list of genes against a region-specific subset of GTEx.
 
 Pipeline
 --------
@@ -102,6 +101,14 @@ you can specify it as a parameter like so:
 
 Alternatively, you can specify it as a list under the ``gene_ids`` parameter in the
 configuration file located at ``configuration/snakemake.yaml``.
+
+The same goes for your region of interest.
+It can be specified as the ``region`` parameter in ``configuration/snakemake.yaml``,
+or passed as below:
+
+.. code-block:: shell
+
+   snakemake --use-conda --use-singularity --cores 6 --config region="Brain_Hypothalamus"
 
 Unless you are querying a huge number of genes,
 I find 6 cores to be sufficient to keep things moving.

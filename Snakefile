@@ -49,6 +49,7 @@ rule request:
                 lut = DATA + "gencode.v26.annotation",
         params:
                 gene_ids = config["gene_ids"],
+                region = config["region"],
         output:
                 data = expand(RESULTS + "request/{gene}_message.csv", gene=config["gene_ids"]),
         log:

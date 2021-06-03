@@ -32,7 +32,7 @@ thread_local = threading.local()
 logger = logging.getLogger(__name__)
 
 
-def _get_session() -> requests.Session:
+def _get_session(region: str) -> requests.Session:
     """Instantiate a thread local session.
 
     The requests session is not thread safe, per `this thread`_.
@@ -41,6 +41,11 @@ def _get_session() -> requests.Session:
 
     .. _this thread:
         https://github.com/psf/requests/issues/2766
+
+    Parameters
+    ----------
+    region : str
+        The GTEx region to query.
 
     Returns
     -------
@@ -53,14 +58,14 @@ def _get_session() -> requests.Session:
         thread_local.session.params.update(  # type: ignore
             {
                 "datasetId": "gtex_v8",
-                "tissueSiteDetailId": "Brain_Hypothalamus",
+                "tissueSiteDetailId": region,
                 "format": "tsv",
             }
         )
     return thread_local.session
 
 
-def gtex_request(gene: str, output: str) -> None:
+def gtex_request(region: str, gene: str, output: str) -> None:
     """Make a thead-safe gtex request against medianTranscriptExpression.
 
     A thread local session is provided by a call to ``_get_session``.
@@ -69,6 +74,8 @@ def gtex_request(gene: str, output: str) -> None:
 
     Parameters
     ----------
+    region : str
+        The GTEx region to query.
     gene : str
         The ENSG to query.
     output : str
@@ -81,7 +88,7 @@ def gtex_request(gene: str, output: str) -> None:
     Exception
         Any other errors
     """
-    s = _get_session()
+    s = _get_session(region)
     response = s.get(
         "https://gtexportal.org/rest/v1/expression/medianTranscriptExpression",
         params={

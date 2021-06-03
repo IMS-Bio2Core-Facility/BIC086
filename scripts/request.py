@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 """Make a GET request to GTEx medianTranscriptExpression.
 
-This step queries the GTEx API for transcript expression data in the human
-hypothalamus using a user provided list of genes names.
+This step queries the GTEx API for transcript expression data in the region
+specified by the user,
+using a user provided list of genes names.
 As the GTEx API is quite straightforward,
 these queries can be made using the standard `requests.session`_ object.
 Data were pulled from the ``gtex_v8`` dataset limited to the
-``Brain_Hypothalamus`` region.
+region specified by the user.
 
 There are a number of bugs in the GTEx API that necesitated some work arounds.
 The data are returned in a TSV format,
@@ -43,4 +44,4 @@ if __name__ == "__main__":
     ]
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=THREADS) as ex:
-        ex.map(gtex_request, genes, OUTS["data"])
+        ex.map(gtex_request, [PARAMS["region"]] * len(genes), genes, OUTS["data"])

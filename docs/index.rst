@@ -21,7 +21,7 @@ BIC086
    :target: https://github.com/IMS-Bio2Core-Facility/BIC086
    :alt: GitHub Repo stars
 
-A fully concurrent pipeline for querying transcript-level GTEx data in the human hypothalamus.
+A fully concurrent pipeline for querying transcript-level GTEx data in specific tissues
 
 To learn more about the project,
 please see :ref:`readme`.
