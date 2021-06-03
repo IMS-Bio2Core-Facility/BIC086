@@ -14,6 +14,7 @@ CONDA_PARAMS: list[str] = ["-c", "bioconda", "-c", "conda-forge", "--file"]
 nox.options.stop_on_first_error = True
 nox.options.default_venv_backend = "conda"
 nox.options.reuse_existing_virtualenvs = True
+nox.options.sessions = ["form", "lint", "type", "security", "tests", "doc_tests"]
 
 
 @nox.session(python=VERSIONS[0])
