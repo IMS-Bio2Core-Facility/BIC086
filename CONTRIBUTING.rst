@@ -15,7 +15,7 @@ let us know `here`_.
 We'll do our best to deal with it ASAP,
 but please be patient as we also work many other projects!
 
-.. _here: https://github.com/IMS-Bio2Core-Facility/BIC086-Sophie-Austin/issues
+.. _here: https://github.com/IMS-Bio2Core-Facility/BIC086/issues
 
 Developing
 ----------

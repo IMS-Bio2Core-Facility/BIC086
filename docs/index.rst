@@ -1,5 +1,5 @@
-BIC086-Sophie-Austin
-====================
+BIC086
+======
 
 .. image:: https://img.shields.io/badge/License-MIT-blue.svg
    :target: https://opensource.org/licenses/MIT
@@ -17,8 +17,8 @@ BIC086-Sophie-Austin
    :target: https://github.com/psf/black
    :alt: Codestyle: Black
 
-.. image:: https://img.shields.io/github/stars/IMS-Bio2Core-Facility/BIC086-Sophie-Austin?style=social
-   :target: https://github.com/IMS-Bio2Core-Facility/BIC086-Sophie-Austin
+.. image:: https://img.shields.io/github/stars/IMS-Bio2Core-Facility/BIC086?style=social
+   :target: https://github.com/IMS-Bio2Core-Facility/BIC086
    :alt: GitHub Repo stars
 
 A fully concurrent pipeline for querying transcript-level GTEx data in the human hypothalamus.

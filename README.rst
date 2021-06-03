@@ -1,5 +1,5 @@
-BIC086-Sophie-Austin
-====================
+BIC086
+======
 
 .. image:: https://img.shields.io/badge/License-MIT-blue.svg
    :target: https://opensource.org/licenses/MIT
@@ -17,8 +17,8 @@ BIC086-Sophie-Austin
    :target: https://github.com/psf/black
    :alt: Codestyle: Black
 
-.. image:: https://img.shields.io/github/stars/IMS-Bio2Core-Facility/BIC086-Sophie-Austin?style=social
-   :target: https://github.com/IMS-Bio2Core-Facility/BIC086-Sophie-Austin
+.. image:: https://img.shields.io/github/stars/IMS-Bio2Core-Facility/BIC086?style=social
+   :target: https://github.com/IMS-Bio2Core-Facility/BIC086
    :alt: GitHub Repo stars
 
 A fully concurrent pipeline for querying transcript-level GTEx data in the human hypothalamus.
@@ -74,8 +74,8 @@ running the pipeline is as simple as:
 
 .. code-block:: shell
 
-   git clone https://github.com/IMS-Bio2Core-Facility/BIC086-Sophie-Austin &&
-   cd BIC086-Sophie-Austin &&
+   git clone https://github.com/IMS-Bio2Core-Facility/BIC086 &&
+   cd BIC086 &&
    snakemake --use-conda --use-singularity --cores 6
 
 If you aren't using ``singularity``,
@@ -83,8 +83,8 @@ then leave off the apropriate flag, as so:
 
 .. code-block:: shell
 
-   git clone https://github.com/IMS-Bio2Core-Facility/BIC086-Sophie-Austin &&
-   cd BIC086-Sophie-Austin &&
+   git clone https://github.com/IMS-Bio2Core-Facility/BIC086 &&
+   cd BIC086 &&
    snakemake --use-conda --cores 6
 
 And ``snakemake`` will automatically leave it off.
