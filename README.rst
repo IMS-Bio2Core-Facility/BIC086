@@ -21,11 +21,16 @@ BIC086
    :target: https://github.com/psf/black
    :alt: Codestyle: Black
 
-.. image:: https://img.shields.io/github/stars/IMS-Bio2Core-Facility/BIC086?style=social
+.. image:: https://img.shields.io/github/stars/IMS-Bio2Core-Facility/BIC086
    :target: https://github.com/IMS-Bio2Core-Facility/BIC086
    :alt: GitHub Repo stars
 
 A fully concurrent pipeline for querying transcript-level GTEx data in specific tissues
+
+If you find the project useful,
+leaves us a star on `github`_!
+
+.. _github: https://github.com/IMS-Bio2Core-Facility/BIC086/stargazers
 
 Motivation
 ----------
