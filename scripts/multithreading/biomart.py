@@ -26,6 +26,7 @@ import logging
 import threading
 from dataclasses import dataclass
 from io import StringIO
+from time import sleep
 
 import pandas as pd
 from bioservices import BioMart
@@ -115,6 +116,11 @@ class BMSession:
             Containing the geneSymbol, gencodeId, transcriptId, and refseq ID of the
             transcript. If refseq is NA, then there is no corresponding ID in BioMart.
 
+        Raises
+        ------
+        TimeoutError
+            When BioMart cannot be reached after 5 tries
+
         """
         self._s.new_query()
         self._s.add_dataset_to_xml("hsapiens_gene_ensembl")
@@ -126,14 +132,30 @@ class BMSession:
 
         logger.info(f"Requesting transcript {transcript}")
         xml = self._s.get_xml()
-        message = self._s.query(xml)
 
-        data = pd.read_csv(
-            StringIO(message),
-            sep="\t",
-            header=None,
-            names=["geneSymbol", "gencodeId", "transcriptId", "refseq"],
-        )
+        i = 0
+        # Bioservices does not raise error, so we must check manually.
+        # This can probably be improved...
+        while "ERROR" in (message := self._s.query(xml)):
+            logger.warning(f"Query error for {transcript}. Trying again in 0.5 s.")
+            i += 1
+            try:
+                if i > 5:
+                    raise TimeoutError
+            except TimeoutError:
+                logger.exception(
+                    f"Query for {transcript} failed. Likely a BioMart connection issue."
+                )
+                raise
+            else:
+                sleep(0.5)
+        else:
+            data = pd.read_csv(
+                StringIO(message),
+                sep="\t",
+                header=None,
+                names=["geneSymbol", "gencodeId", "transcriptId", "refseq"],
+            )
         return data
 
     def biomart_request(self) -> None:
