@@ -1,3 +1,12 @@
+[tool.semantic_release]
+branch = "main"
+version_variable = [
+        "scripts/__init__.py:__version__"
+]
+changelog_file = "CHANGELOG.rst"
+upload_to_pypi = false
+upload_to_release = false
+
 [tool.coverage.run]
 branch = true
 source = ["scripts"]
@@ -6,8 +15,8 @@ omit = ["*/__init__.py"]
 [tool.coverage.report]
 show_missing = true
 exclude_lines = [
-'pragma: no cover',
-'if __name__ == "__main__":',
+        'pragma: no cover',
+        'if __name__ == "__main__":',
 ]
 
 [tool.pytest.ini_options]
