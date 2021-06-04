@@ -7,6 +7,7 @@ PACKAGE: str = "scripts"
 LOCATIONS: list[str] = [
     PACKAGE,
     "noxfile.py",
+    "tests",
 ]
 VERSIONS: list[str] = ["3.9"]
 PIP_PARAMS: list[str] = ["-r"]
