@@ -10,8 +10,16 @@ BIC086
    :alt: Python 3.9
 
 .. image:: https://www.repostatus.org/badges/latest/active.svg
-   :alt: Project Status: Active – The project has reached a stable, usable state and is being actively developed.
    :target: https://www.repostatus.org/#active
+   :alt: Project Status: Active – The project has reached a stable, usable state and is being actively developed.
+
+.. image:: https://github.com/IMS-Bio2Core-Facility/BIC086/actions/workflows/main.yml/badge.svg
+   :target: https://github.com/IMS-Bio2Core-Facility/BIC086/actions
+   :alt: Github Actions CI/CD Status
+
+.. image:: https://codecov.io/gh/IMS-Bio2Core-Facility/BIC086/branch/main/graph/badge.svg?token=IGBM9S96FY
+   :target: https://codecov.io/gh/IMS-Bio2Core-Facility/BIC086
+   :alt: Code Coverage
 
 .. image:: https://readthedocs.org/projects/bic086/badge/?version=latest
    :target: https://bic086.readthedocs.io/en/latest/?badge=latest
