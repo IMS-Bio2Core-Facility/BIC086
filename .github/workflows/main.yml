@@ -1,9 +1,11 @@
-name: CI
+name: CI/CD
 on:
   push:
-    branches: [ main ]
+    branches:
+      - '**'
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
   workflow_dispatch:
 
@@ -11,15 +13,19 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: excitedleigh/setup-nox@v2.0.0
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Nox
+        uses: excitedleigh/setup-nox@v2.0.0
       - name: black_isort_flake8_mypy
         run: nox -s form lint type
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: excitedleigh/setup-nox@v2.0.0
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Nox
+        uses: excitedleigh/setup-nox@v2.0.0
       - name: pytest_xdoctest
         run: nox -s tests doc_tests
       - name: Upload to codecov
@@ -31,7 +37,9 @@ jobs:
   security:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: excitedleigh/setup-nox@v2.0.0
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Nox
+        uses: excitedleigh/setup-nox@v2.0.0
       - name: safety
         run: nox -s security
