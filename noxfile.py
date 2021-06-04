@@ -9,11 +9,12 @@ LOCATIONS: list[str] = [
     "noxfile.py",
 ]
 VERSIONS: list[str] = ["3.9"]
+PIP_PARAMS: list[str] = ["-r"]
 CONDA_PARAMS: list[str] = ["-c", "bioconda", "-c", "conda-forge", "--file"]
 
 nox.options.stop_on_first_error = True
-nox.options.default_venv_backend = "conda"
-nox.options.reuse_existing_virtualenvs = True
+nox.options.default_venv_backend = "virtualenv"
+nox.options.reuse_existing_virtualenvs = False
 nox.options.sessions = ["form", "lint", "type", "security", "tests", "doc_tests"]
 
 
@@ -21,7 +22,7 @@ nox.options.sessions = ["form", "lint", "type", "security", "tests", "doc_tests"
 def form(session: Session) -> None:
     """Format code with isort and black."""
     args = session.posargs or LOCATIONS
-    session.conda_install(*CONDA_PARAMS, "environments/form.txt")
+    session.install(*PIP_PARAMS, "environments/form.txt")
     session.run("isort", *args)
     session.run("black", *args)
 
@@ -30,8 +31,7 @@ def form(session: Session) -> None:
 def lint(session: Session) -> None:
     """Lint files with flake8."""
     args = session.posargs or LOCATIONS
-    session.conda_install(*CONDA_PARAMS, "environments/lint.txt")
-    session.install("-r", "environments/lint_pip.txt", "--no-deps")
+    session.install(*PIP_PARAMS, "environments/lint.txt")
     session.run("pflake8", *args)
 
 
@@ -39,7 +39,7 @@ def lint(session: Session) -> None:
 def type(session: Session) -> None:
     """Type check files with mypy."""
     args = session.posargs or LOCATIONS
-    session.conda_install(*CONDA_PARAMS, "environments/type.txt")
+    session.install(*PIP_PARAMS, "environments/type.txt")
     session.run(
         "mypy",
         "--ignore-missing-imports",
@@ -49,7 +49,8 @@ def type(session: Session) -> None:
     )
 
 
-@nox.session(python=VERSIONS)
+# The snakemake install is complex, and runs better in conda
+@nox.session(python=VERSIONS, venv_backend="conda")
 def security(session: Session) -> None:
     """Check security safety."""
     args = session.posargs or []
@@ -61,7 +62,7 @@ def security(session: Session) -> None:
 def tests(session: Session) -> None:
     """Run the test suite with pytest."""
     args = session.posargs or []
-    session.conda_install(*CONDA_PARAMS, "environments/tests.txt")
+    session.install(*PIP_PARAMS, "environments/tests.txt")
     session.run("pytest", *args)
 
 
@@ -69,7 +70,7 @@ def tests(session: Session) -> None:
 def doc_tests(session: Session) -> None:
     """Build the docs."""
     args = session.posargs or []
-    session.conda_install(*CONDA_PARAMS, "environments/doc_tests.txt")
+    session.install(*PIP_PARAMS, "environments/doc_tests.txt")
     session.run(
         "python",
         "-m",
@@ -87,6 +88,5 @@ def doc_tests(session: Session) -> None:
 @nox.session(python="3.9")
 def doc_build(session: Session) -> None:
     """Build the docs."""
-    session.conda_install(*CONDA_PARAMS, "environments/doc_build.txt")
-    session.install("-r", "environments/doc_build_pip.txt", "--no-deps")
+    session.install(*PIP_PARAMS, "environments/doc_build.txt")
     session.run("sphinx-build", "docs", "docs/_build")
