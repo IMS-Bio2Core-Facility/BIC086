@@ -12,15 +12,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: excitedleigh/setup-nox@v2.0.0
       - name: black_isort_flake8_mypy
-        uses: excitedleigh/setup-nox@v2.0.0
         run: nox -s form lint type
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: excitedleigh/setup-nox@v2.0.0
       - name: pytest_xdoctest
-        uses: excitedleigh/setup-nox@v2.0.0
         run: nox -s tests doc_tests
       - name: Upload to codecov
         uses: codecov/codecov-action@v1
@@ -32,6 +32,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: safety
       - uses: excitedleigh/setup-nox@v2.0.0
+      - name: safety
         run: nox -s security
