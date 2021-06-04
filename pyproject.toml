@@ -5,6 +5,10 @@ omit = ["*/__init__.py"]
 
 [tool.coverage.report]
 show_missing = true
+exclude_lines = [
+'pragma: no cover',
+'if __name__ == "__main__":',
+]
 
 [tool.pytest.ini_options]
 addopts = """
@@ -12,6 +16,8 @@ addopts = """
 --ignore=docs
 --diff-type=split
 --cov=scripts
+--cov-report=term
+--cov-report=xml
 --typeguard-packages=scripts
 """
 
