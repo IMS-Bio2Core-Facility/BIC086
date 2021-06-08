@@ -61,3 +61,10 @@ Welcome!
    snakefile
    source
    testing
+
+Indices and Tables
+------------------
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
