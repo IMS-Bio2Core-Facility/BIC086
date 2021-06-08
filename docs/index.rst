@@ -45,8 +45,9 @@ To learn more about the project,
 please see :ref:`readme`.
 If you want to learn more about the analysis,
 you should look at :ref:`analysis`.
-The source code documentation lives at :ref:`source`,
-and you can learn about contributing at :ref:`contributing`.
+The source code documentation lives at :ref:`source`.
+If testing is your thing, peek at :ref:`testing`.
+And you can learn about contributing at :ref:`contributing`.
 
 Welcome!
 
@@ -59,3 +60,4 @@ Welcome!
    analysis
    snakefile
    source
+   testing
