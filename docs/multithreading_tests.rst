@@ -3,4 +3,4 @@
 Tests for the multithreading Module
 ===================================
 
-.. automodule:: tests.test_multithreading
+.. automodule:: tests.multithreading

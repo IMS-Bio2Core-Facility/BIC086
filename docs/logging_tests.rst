@@ -3,5 +3,11 @@
 Tests for the logs Module
 =========================
 
-.. automodule:: tests.test_logs
+.. automodule:: tests.logs
+   :members:
+
+Tests for the logs.get_logger Submodule
+---------------------------------------
+
+.. automodule:: tests.logs.test_get_logger
    :members:
