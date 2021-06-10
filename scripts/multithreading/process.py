@@ -30,6 +30,7 @@ from dataclasses import dataclass
 from typing import Union
 
 import pandas as pd
+from data_handling.process import merge_data, write_data
 
 logger = logging.getLogger(__name__)
 
@@ -96,19 +97,7 @@ class Pipeline:
         while (gtex_path := self.gtex.pop(0)) is not None and (
             bm_path := self.bm.pop(0)
         ) is not None:
-            gtex = pd.read_csv(gtex_path, header=0, index_col=None)
-            bm = pd.read_csv(bm_path, header=0, index_col=None)
-            data = (
-                gtex.merge(
-                    bm, on=["geneSymbol", "gencodeId", "transcriptId"], how="outer"
-                )
-                .merge(
-                    self.mane,
-                    on=["geneSymbol", "gencodeId", "transcriptId", "refseq"],
-                    how="left",
-                )
-                .sort_values(["median", "MANE_status"])
-            )
+            data = merge_data(gtex_path, bm_path, self.mane)
             self._q.put(data)
             logger.info(f"Contents of file {gtex_path} added to queue")
         else:
@@ -123,9 +112,7 @@ class Pipeline:
         queue is a FIFO queue.
         """
         while (data := self._q.get()) is not None:
-            gene = data["geneSymbol"].unique()[0]
-            data.to_excel(self.writer, index=False, sheet_name=gene)
-            logger.info(f"{gene} add to output file.")
+            write_data(data, self.writer)
             self._q.task_done()
         else:
             logging.info("None received. Queue consumed.")
