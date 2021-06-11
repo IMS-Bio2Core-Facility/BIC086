@@ -92,6 +92,8 @@ Get the Source Code
 Navigate to our `release`_ page on github and download the most recent version.
 The following will do the trick:
 
+.. _release: https://github.com/IMS-Bio2Core-Facility/BIC086/releases
+
 .. code-block:: shell
 
    curl -s https://api.github.com/repos/IMS-Bio2Core-Facility/BIC086/releases/latest |
