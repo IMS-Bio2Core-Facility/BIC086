@@ -1,0 +1,7 @@
+name: mane
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - snakemake==6.4.0

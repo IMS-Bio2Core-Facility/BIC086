@@ -9,7 +9,18 @@ RESULTS = config["results_dir"]
 
 rule all:
         input:
+                RESULTS + "dag.png",
                 RESULTS + "process/sorted_isoforms.xlsx",
+
+rule dag:
+        output:
+                dag = RESULTS + "dag.png",
+        conda:
+                ENVS + "dag.yml"
+        shell:
+                "snakemake -np --dag &> /dev/null | "
+                "dot -Tpng "
+                "> {output.dag}"
 
 rule ids:
         params:
