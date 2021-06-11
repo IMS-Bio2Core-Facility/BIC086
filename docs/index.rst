@@ -47,7 +47,10 @@ If you want to learn more about the analysis,
 you should look at :ref:`analysis`.
 The source code documentation lives at :ref:`source`.
 If testing is your thing, peek at :ref:`testing`.
+A full changelog can be found with the `release history`_.
 And you can learn about contributing at :ref:`contributing`.
+
+.. _release history: https://github.com/IMS-Bio2Core-Facility/BIC086/releases
 
 Welcome!
 
