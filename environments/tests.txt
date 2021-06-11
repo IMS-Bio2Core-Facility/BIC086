@@ -5,3 +5,4 @@ pytest-sugar==0.9.4
 pytest-cov==2.12.0
 coverage==5.5
 typeguard==2.12.0
+pandas==1.2.4
