@@ -54,11 +54,12 @@ Here, we query a list of genes against a region-specific subset of GTEx.
 Pipeline
 --------
 
-Installation
-~~~~~~~~~~~~
+Necessary Software
+~~~~~~~~~~~~~~~~~~
 
 This pipeline needs `conda`_ and `snakemake`_ installed,
-and runs best if you also have `singularity`_ installed.
+and runs best if you also have `singularity`_ installed,
+though it's not required.
 
 Snakemake recommends using `mambaforge`_ as your base conda,
 which I would also recommend.
@@ -74,6 +75,10 @@ Singularity can be a bit of a nuisance to install
 I would recommend a Linux OS
 (it's most straightforward on CentOS/RHEL  - hello AWS!)
 and following the instructions in their repository `here`_.
+If you decide not to install Singularity,
+don't worry!
+Snakemake will still run each step in its own Conda environment,
+it just won't put each Conda environment in a container.
 
 .. _conda: https://docs.conda.io/en/latest/
 .. _snakemake: https://snakemake.readthedocs.io/en/stable/getting_started/installation.html
@@ -81,17 +86,54 @@ and following the instructions in their repository `here`_.
 .. _mambaforge: https://github.com/conda-forge/miniforge#mambaforge
 .. _here: https://github.com/sylabs/singularity/blob/master/INSTALL.md
 
+Get the Source Code
+~~~~~~~~~~~~~~~~~~~
+
+Navigate to our `release`_ page on github and download the most recent version.
+The following will do the trick:
+
+.. code-block:: shell
+
+   curl -s https://api.github.com/repos/IMS-Bio2Core-Facility/BIC086/releases/latest |
+   grep tarball_url |
+   cut -d " " -f 4 |
+   tr -d '",' |
+   xargs -n1 curl -sL |
+   tar xzf -
+
+After querying the github api to ge the most recent release information,
+we grep for the desired URL,
+split the line and extract the field,
+trim superfluous characters,
+use ``xargs`` to pipe this to ``curl`` while allowing for re-directs,
+and un-tar the files.
+Easy!
+
+Alternatively,
+for the bleeding edge,
+please clone the repo like so:
+
+.. code-block:: shell
+
+   git clone https://github.com/IMS-Bio2Core-Facility/BIC086
+
+.. warning::
+
+   The bleeding edge may not be stable,
+   as it contains all active development.
+   
+However you choose to install it,
+``cd`` into the directory and activate your snakemake conda environment.
 
 Running
 ~~~~~~~
 
 Once you've installed the above software,
+and fetched the code,
 running the pipeline is as simple as:
 
 .. code-block:: shell
 
-   git clone https://github.com/IMS-Bio2Core-Facility/BIC086 &&
-   cd BIC086 &&
    snakemake --use-conda --use-singularity --cores 6
 
 If you aren't using ``singularity``,
@@ -99,8 +141,6 @@ then leave off the apropriate flag, as so:
 
 .. code-block:: shell
 
-   git clone https://github.com/IMS-Bio2Core-Facility/BIC086 &&
-   cd BIC086 &&
    snakemake --use-conda --cores 6
 
 And ``snakemake`` will automatically leave it off.
