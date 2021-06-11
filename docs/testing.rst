@@ -12,4 +12,5 @@ There are long term plans to develop integration tests for the whole pipeline.
    :maxdepth: 3
 
    logging_tests
+   data_handling_tests
    multithreading_tests
