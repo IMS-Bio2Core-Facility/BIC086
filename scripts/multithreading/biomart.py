@@ -137,7 +137,7 @@ class BMSession:
         # Bioservices does not raise error, so we must check manually.
         # This can probably be improved...
         while "ERROR" in (message := self._s.query(xml)):
-            logger.warning(f"Query error for {transcript}. Trying again in 0.5 s.")
+            logger.warning(f"Query error for {transcript}. Trying again in 0.1 s.")
             i += 1
             try:
                 if i > 5:
@@ -148,7 +148,7 @@ class BMSession:
                 )
                 raise
             else:
-                sleep(0.5)
+                sleep(0.1)
         else:
             data = pd.read_csv(
                 StringIO(message),
