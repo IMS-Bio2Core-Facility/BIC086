@@ -2,6 +2,16 @@
 
 <!--next-version-placeholder-->
 
+## v0.1.1 (2021-06-11)
+### Fix
+* **multithreading:** Reduce sleep time ([`2b63def`](https://github.com/IMS-Bio2Core-Facility/BIC086/commit/2b63defc831b237a8309168111b90dafd84d139a))
+* **docs:** Correct missing link. ([`35bb4e3`](https://github.com/IMS-Bio2Core-Facility/BIC086/commit/35bb4e348a1c750443669a5aa02d791b16d3ddfc))
+
+### Documentation
+* **README:** Direct to releases ([`af2e2a2`](https://github.com/IMS-Bio2Core-Facility/BIC086/commit/af2e2a2b0c6f0d2306cdb62bc491345a73741d97))
+* **index:** Add changelog ([`58bc9b3`](https://github.com/IMS-Bio2Core-Facility/BIC086/commit/58bc9b3e1f6b1dfa4ebeacdf9276e9923e93d180))
+* **tests:** Add data_handling.process ([`5c6321e`](https://github.com/IMS-Bio2Core-Facility/BIC086/commit/5c6321eb570bb6a4ea94c3005eaa7da646aa9429))
+
 ## v0.1.0 (2021-06-11)
 ### Feature
 * **snakemake:** Produce DAG of run ([`27d420c`](https://github.com/IMS-Bio2Core-Facility/BIC086/commit/27d420cdaafdf731f1b064297a368c977c0b9564))
