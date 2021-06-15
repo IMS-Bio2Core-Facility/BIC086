@@ -73,6 +73,12 @@ def doc_tests(session: Session) -> None:
 
     As xdoctest does not seem to detect if multiple sources are passed,
     session run must be called over each source manually.
+
+    Parameters
+    ----------
+    session : Session
+        nox session
+
     """
     args = session.posargs or []
     command = [
@@ -88,6 +94,7 @@ def doc_tests(session: Session) -> None:
     session.install(*PIP_PARAMS, "environments/doc_tests.txt")
     for x in LOCATIONS:
         session.run(*command, x, *args)
+
 
 @nox.session(python="3.9")
 def doc_build(session: Session) -> None:

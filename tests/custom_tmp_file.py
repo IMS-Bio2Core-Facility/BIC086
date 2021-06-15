@@ -1,11 +1,12 @@
 """Pytest fixtures."""
 
 from __future__ import annotations
+
 import os
-import pytest
 from tempfile import NamedTemporaryFile
 from types import TracebackType
 from typing import Optional, Type
+
 
 class CustomTempFile:
     """Create a temporary file with custom content.

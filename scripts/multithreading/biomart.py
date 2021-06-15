@@ -63,7 +63,7 @@ def concurrent_biomart(file: str, output: str) -> None:
     logger.info(f"Processing file {file}")
     df = pd.read_csv(file, index_col=None)
     if len(transcripts := df.loc[:, "transcriptId"].unique().tolist()) == 0:
-        logging.error(f'There are no transcripts for {file}. Raising index error')
+        logging.error(f"There are no transcripts for {file}. Raising index error")
         raise IndexError
     s = BMSession(transcripts, output)
     s.biomart_request()
