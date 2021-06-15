@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v0.1.2 (2021-06-15)
+### Fix
+* **multithreading:** Error if there are no transcripts ([`6fa6cd2`](https://github.com/IMS-Bio2Core-Facility/BIC086/commit/6fa6cd2b413a49b26c0e191c27390bd111ca1c69))
+* **custom_tmp_file:** Remove spurious trues return ([`b966609`](https://github.com/IMS-Bio2Core-Facility/BIC086/commit/b9666094f2a8a59afbc26ed87152c487adb62e1a))
+
+### Documentation
+* **testing:** Add test_biomart submodule ([`eee397a`](https://github.com/IMS-Bio2Core-Facility/BIC086/commit/eee397a9d67e68f6c4cf709b5cbc4a90ca9df381))
+
 ## v0.1.1 (2021-06-11)
 ### Fix
 * **multithreading:** Reduce sleep time ([`2b63def`](https://github.com/IMS-Bio2Core-Facility/BIC086/commit/2b63defc831b237a8309168111b90dafd84d139a))
