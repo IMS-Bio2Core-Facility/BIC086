@@ -60,7 +60,7 @@ class CustomTempFile:
         ex_type: Optional[Type[BaseException]],
         ex_val: Optional[BaseException],
         tb: Optional[TracebackType],
-    ) -> bool:
+    ) -> None:
         """Call on exit from with statement.
 
         Typing via `mypy`_.
@@ -76,10 +76,5 @@ class CustomTempFile:
         tb : Optional[TracebackType]
             Traceback
 
-        Returns
-        -------
-        bool
-            True, if successful.
         """
         os.unlink(self.filename)
-        return True
