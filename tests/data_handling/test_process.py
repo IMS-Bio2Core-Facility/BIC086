@@ -10,27 +10,32 @@ representative data is included in the tests.data module.
 
 Attributes
 ----------
-GTEX_PATH : Path
-    Path to representative GTEx data.
-BM_PATH : Path
-    Path to representative BioMart data.
 MANE : pd.DataFrame
-    Representative MANE data.
+    A minimal MANE dataset
 """
-from pathlib import Path
+from io import StringIO
 
 import pandas as pd
 
 from scripts.data_handling.process import merge_data
 
-GTEX_PATH = Path("tests", "data", "gtex_message.csv")
-BM_PATH = Path("tests", "data", "biomart_message.csv")
-MANE: pd.DataFrame = pd.read_csv(Path("tests", "data", "mane_minimal.csv"), index_col=0)
+from ..custom_tmp_file import (
+    BIOMART_CONTENTS,
+    GTEX_CONTENTS,
+    MANE_CONTENTS,
+    CustomTempFile,
+)
+
+MANE: pd.DataFrame = pd.read_csv(StringIO(MANE_CONTENTS))
 
 
 def test_returns_dataframe() -> None:
     """It returns a DataFrame."""
-    results = merge_data(GTEX_PATH, BM_PATH, MANE)
+    results = merge_data(
+        CustomTempFile(GTEX_CONTENTS).filename,
+        CustomTempFile(BIOMART_CONTENTS).filename,
+        MANE,
+    )
     assert type(results) == pd.DataFrame
 
 
@@ -56,7 +61,11 @@ def test_results_columns() -> None:
         "chr_end",
         "chr_strand",
     ]
-    results = merge_data(GTEX_PATH, BM_PATH, MANE)
+    results = merge_data(
+        CustomTempFile(GTEX_CONTENTS).filename,
+        CustomTempFile(BIOMART_CONTENTS).filename,
+        MANE,
+    )
     assert all(x in columns for x in results.columns), "Found an unexpected column."
     assert len(results.columns) == len(
         columns
@@ -74,5 +83,9 @@ def test_sorted_results() -> None:
     and knowing the correct order would require prior knowledge about the number
     of GTEx transcripts and the number with MANE status.
     """
-    results = merge_data(GTEX_PATH, BM_PATH, MANE)
+    results = merge_data(
+        CustomTempFile(GTEX_CONTENTS).filename,
+        CustomTempFile(BIOMART_CONTENTS).filename,
+        MANE,
+    )
     assert results["median"].is_monotonic

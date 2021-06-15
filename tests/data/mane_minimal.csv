@@ -1,2 +1,0 @@
-,#NCBI_GeneID,gencodeId,HGNC_ID,geneSymbol,name,refseq,RefSeq_prot,transcriptId,Ensembl_prot,MANE_status,GRCh38_chr,chr_start,chr_end,chr_strand
-1181,GeneID:1745,ENSG00000144355,HGNC:2914,DLX1,distal-less homeobox 1,NM_178120,NP_835221.2,ENST00000361725,ENSP00000354478.4,MANE Select,2,172085507,172089674,+
