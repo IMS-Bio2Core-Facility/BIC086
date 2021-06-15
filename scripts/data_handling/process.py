@@ -1,23 +1,33 @@
 # -*- coding: utf-8 -*-
-"""Data handling for *process* step."""
+"""Data handling for *process* step.
+
+Attributes
+----------
+Pathlike : TypeVar
+    A custom type to unify string and Path
+"""
 import logging
-from os import PathLike
+from pathlib import Path
+from typing import TypeVar
 
 import pandas as pd
 
 logger = logging.getLogger(__name__)
 
 
+Pathlike = TypeVar("Pathlike", Path, str)
+
+
 def merge_data(
-    gtex_path: PathLike, bm_path: PathLike, mane: pd.DataFrame
+    gtex_path: Pathlike, bm_path: Pathlike, mane: pd.DataFrame
 ) -> pd.DataFrame:
     """Merge the data from previous pipeline queries.
 
     Parameters
     ----------
-    gtex_path : PathLike
+    gtex_path : Pathlike
         Path to the file containing GTEx query data.
-    bm_path : PathLike
+    bm_path : Pathlike
         Path to the file containing BioMart query data.
     mane : pd.DataFrame
         A DataFrame containing MANE annotations
