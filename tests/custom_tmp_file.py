@@ -24,8 +24,8 @@ class CustomTempFile:
     Examples
     --------
     >>> with CustomTempFile('Hello World') as tmp:
-            with tmp.file as file:
-                assert file.read() == 'Hello World'
+    >>>     with open(tmp.filename, 'r') as file:
+    >>>         assert file.read() == 'Hello World'
 
     """
 
