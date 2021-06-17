@@ -123,7 +123,7 @@ please clone the repo like so:
 
    The bleeding edge may not be stable,
    as it contains all active development.
-   
+
 However you choose to install it,
 ``cd`` into the directory and activate your snakemake conda environment.
 
@@ -150,13 +150,17 @@ And ``snakemake`` will automatically leave it off.
 Customising
 ~~~~~~~~~~~
 
+If you want to run this pipeline multpile times,
+then be sure to move or delete the final ``results/process/sorted_isoforms.xlsx`` file.
+Snakemake will not re-run a pipeline if it detects the output file.
+
 You will almost certainly have a different gene list than me!
 If its short,
 you can specify it as a parameter like so:
 
 .. code-block:: shell
 
-   snakemake --use-conda --use-singularity --cores 6 --config gene_ids=["GENE1","GENE2"]
+   snakemake --use-conda --use-singularity --cores 6 --config gene_ids=\["GENE1","GENE2"\]
 
 Alternatively, you can specify it as a list under the ``gene_ids`` parameter in the
 configuration file located at ``configuration/snakemake.yaml``.
