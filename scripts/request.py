@@ -24,6 +24,7 @@ if __name__ == "__main__":
     import concurrent.futures
 
     import pandas as pd
+    from data_handling.request import lut_check
     from logs.get_logger import get_logger
     from multithreading.request import gtex_request
 
@@ -39,9 +40,8 @@ if __name__ == "__main__":
         INPUTS["lut"], sep=" ", index_col=None, header=None, names=["id", "name"]
     )
 
-    genes = [
-        lut.loc[lut["name"] == gene, "id"].values[0] for gene in PARAMS["gene_ids"]
-    ]
+    genes = [lut_check(gene, lut) for gene in PARAMS["gene_ids"]]
+    logger.info(f"{genes}")
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=THREADS) as ex:
         ex.map(gtex_request, [PARAMS["region"]] * len(genes), genes, OUTS["data"])

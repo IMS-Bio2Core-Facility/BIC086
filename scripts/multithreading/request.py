@@ -21,6 +21,7 @@ and mapping with ``concurrent.futures.ThreadPoolExecutor.map``.
 The call to ``concurrent.futures.ThreadPoolExecutor.map`` is handled in the analysis
 script.
 """
+import csv
 import logging
 import threading
 from io import StringIO
@@ -89,6 +90,27 @@ def gtex_request(region: str, gene: str, output: str) -> None:
         Any other errors
     """
     s = _get_session(region)
+
+    # If gene is None, write blank file
+    if gene is None:
+        with open(output, "w") as file:
+            writer = csv.writer(file)
+            writer.writerow(
+                [
+                    "gencodeId",
+                    "geneSymbol",
+                    "tissueSiteDetailId",
+                    "transcriptId",
+                    "median",
+                    "unit",
+                    "datasetId",
+                ]
+            )
+            logger.warning(
+                "A gene was not found in Gencode. An empty file has been created."
+            )
+            exit()
+
     response = s.get(
         "https://gtexportal.org/rest/v1/expression/medianTranscriptExpression",
         params={
