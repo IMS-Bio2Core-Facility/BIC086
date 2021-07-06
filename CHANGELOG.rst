@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v0.1.3 (2021-07-06)
+### Fix
+* **request:** Handle unknown genes ([`9324872`](https://github.com/IMS-Bio2Core-Facility/BIC086/commit/93248724cfc264ff82e66a635ff3ba882fce2971))
+
+### Documentation
+* **.:** Add documentation for lut_check ([`4042dbd`](https://github.com/IMS-Bio2Core-Facility/BIC086/commit/4042dbdf910806c988660652df40aac93830d375))
+* **README:** Update customising instructions ([`f79e8fd`](https://github.com/IMS-Bio2Core-Facility/BIC086/commit/f79e8fdbe011f158a90c0bc7229cce4990021e8b))
+
 ## v0.1.2 (2021-06-15)
 ### Fix
 * **multithreading:** Error if there are no transcripts ([`6fa6cd2`](https://github.com/IMS-Bio2Core-Facility/BIC086/commit/6fa6cd2b413a49b26c0e191c27390bd111ca1c69))
