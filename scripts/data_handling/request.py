@@ -29,7 +29,6 @@ def lut_check(gene: str, lut: pd.DataFrame) -> Optional[str]:  # type: ignore
     Common reasons (at least for me!) that a gene might not be found include
     spelling errors and name errors (ie. using NGN2 instead of NEUROG2).
 
-
     Parameters
     ----------
     gene : str
@@ -40,6 +39,13 @@ def lut_check(gene: str, lut: pd.DataFrame) -> Optional[str]:  # type: ignore
     Returns
     -------
     Optional[str]
+
+    Example
+    -------
+    >>> lut = pd.DataFrame.from_dict({"name": ["ASCL1"], "id": ["ENSG00000139352.3"]})
+    >>> lut_check("ASCL1", lut)
+    'ENSG00000139352.3'
+    >>> lut_check("NotAGene", lut)
 
     """
     with contextlib.suppress(IndexError):

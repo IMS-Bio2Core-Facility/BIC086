@@ -69,6 +69,9 @@ def _get_session(region: str) -> requests.Session:
 def gtex_request(region: str, gene: str, output: str) -> None:
     """Make a thead-safe gtex request against medianTranscriptExpression.
 
+    If gene is a str, then a query is made to GTEx; however, if gene is None, then
+    a blank file is created and no query is performed.
+
     A thread local session is provided by a call to ``_get_session``.
     This allows the reuse of sessions, which, among other things,
     provides significant speed ups.

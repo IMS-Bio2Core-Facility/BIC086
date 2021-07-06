@@ -103,7 +103,7 @@ The following will do the trick:
    xargs -n1 curl -sL |
    tar xzf -
 
-After querying the github api to ge the most recent release information,
+After querying the github api to get the most recent release information,
 we grep for the desired URL,
 split the line and extract the field,
 trim superfluous characters,
@@ -195,7 +195,7 @@ as we ran it,
 with the software versions,
 as we used them.
 To further aid in this effort,
-`nox`_ and `pre-commit` are used,
+`nox`_ and `pre-commit`_ are used,
 which also ensures that development happens in reproducible environments.
 
 Unfortunately,

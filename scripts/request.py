@@ -4,6 +4,14 @@
 This step queries the GTEx API for transcript expression data in the region
 specified by the user,
 using a user provided list of genes names.
+To simplify the use experience,
+the user should provide common gene names.
+These are then automatically converted to the GTEx-required Ensembl IDs
+by referencing Gencode v26 as this is the version used by GTEx.
+If a gene name is not found in Gencode,
+then a warning is dumped to the logs,
+and a blank file created to propagate this error downstream.
+
 As the GTEx API is quite straightforward,
 these queries can be made using the standard `requests.session`_ object.
 Data were pulled from the ``gtex_v8`` dataset limited to the
